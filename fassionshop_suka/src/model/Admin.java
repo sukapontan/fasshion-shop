@@ -125,7 +125,7 @@ public class Admin {
 		Scanner sc = new Scanner(System.in);
 		StockOrderDAO dao = new StockOrderDAO();
 		StockDAO stockDao = new StockDAO();
-		System.out.println("発注状況を確認する支店を選択を選択してください。");
+		System.out.println("発注状況を確認する支店を選択してください。");
 		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
 		int branch_id = sc.nextInt();
 		String branch = null;

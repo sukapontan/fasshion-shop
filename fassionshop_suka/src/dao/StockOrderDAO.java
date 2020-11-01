@@ -50,7 +50,7 @@ public class StockOrderDAO {
 
 	}
 
-	// 発注履歴の表示に関する処理 ※作成中
+	// 発注履歴の表示に関する処理
 	public void productOrderCheck(int branch_id) {
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
@@ -93,7 +93,7 @@ public class StockOrderDAO {
 		}
 	}
 
-	// 発注承認に関する処理（発注数を取得する処理） ※作成中
+	// 発注承認に関する処理（発注数を取得する処理）
 	public ArrayList<StockOrderEntity> getQuantity(int branch_id) {
 
 		ArrayList<StockOrderEntity> list = new ArrayList<StockOrderEntity>();
@@ -104,7 +104,7 @@ public class StockOrderDAO {
 		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
 
 			// SELECT文の準備
-			String sql = "SELECT * FROM STOCKORDER WHERE BRANCH_ID = ?";
+			String sql = "SELECT * FROM STOCKORDER WHERE BRANCH_ID = ? AND STATUS = 10";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, branch_id);
 
@@ -138,7 +138,7 @@ public class StockOrderDAO {
 		return list;
 	}
 
-	// 発注承認に関する処理(ステータス更新) ※作成中
+	// 発注承認に関する処理(ステータス更新)
 	public void orderApproval(int branch_id,int order_quantity,String color,String size) {
 
 		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
