@@ -12,8 +12,6 @@ public class EarningsDAO {
 
 	// 売上情報登録に関する処理
 	public int infoEarnings(int totalPrice, int branch_id) {
-		// INSERT文の準備
-		// INSERT INTO EARNINGS BALUES() (earnings values(null,10000,now(),1,0);
 
 		// 実行結果件数
 		int result = 0;

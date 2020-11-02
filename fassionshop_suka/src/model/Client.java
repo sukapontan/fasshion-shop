@@ -9,7 +9,7 @@ import entity.UserEntity;
 
 public class Client {
 
-	//顧客の操作選択処理
+	// 顧客の操作選択処理
 	public static void clientOpe(UserEntity user) {
 		Scanner sc = new Scanner(System.in);
 
@@ -31,12 +31,13 @@ public class Client {
 
 		Scanner sc = new Scanner(System.in);
 
+		int branch = sc.nextInt();
+		String branchName = null;
+		String color = null;
+
 		// 購入する支店を選択
 		System.out.println("購入する支店を選択してください。");
 		System.out.println("1：L・A支店\n2：埼玉国スカ支店\n3：赤坂支店");
-
-		int branch = sc.nextInt();
-		String branchName = null;
 
 		if (branch == 1) {
 			branchName = "L・A支店";
@@ -48,8 +49,16 @@ public class Client {
 
 		// カラー選択
 		System.out.println("購入する商品のカラーを選択ください。");
-		System.out.println("カラー\n赤\n緑\n黒");
-		String colorSelect = sc.next();
+		System.out.println("カラー\n1:赤\n2:緑\n3:黒");
+		int colorSelect = sc.nextInt();
+
+		if (colorSelect == 1) {
+			color = "赤";
+		} else if (colorSelect == 2) {
+			color = "緑";
+		} else if (colorSelect == 3) {
+			color = "黒";
+		}
 
 		// サイズ選択
 		System.out.println("購入する商品のサイズを選択ください。");
@@ -63,13 +72,13 @@ public class Client {
 		// 購入内容確認
 		System.out.println("お客様が選択した商品は以下の内容になります。");
 		System.out.println("購入支店；" + branchName);
-		System.out.println("カラー：" + colorSelect);
+		System.out.println("カラー：" + color);
 		System.out.println("サイズ：" + sizeSelect);
 		System.out.println("購入枚数：" + number);
 
 		// 購入金額を表示後、購入意思確認
 		StockDAO dao = new StockDAO();
-		int price = dao.purchase(branch, colorSelect, sizeSelect);
+		int price = dao.purchase(branch, color, sizeSelect);
 		int totalPrice = number * price;
 		System.out.println("お支払金額は" + totalPrice + "円です。");
 		System.out.println("購入しますか？");
@@ -80,14 +89,14 @@ public class Client {
 		// 「はい」の場合、STOCKテーブルとWALLETテーブルにUPDATE文、EARNINGSテーブルにINSERT文を投げる
 		if (fix == 1) {
 			// STOCK（在庫）テーブル更新処理
-			dao.updStock(branch, colorSelect, sizeSelect, number, user);
+			dao.updStock(branch, color, sizeSelect, number, user);
 			// WALLET（ウォレット）テーブル更新処理
 			WalletDAO walletdao = new WalletDAO();
 			// EARNINGS（売上情報）テーブル更新処理
 			EarningsDAO earningsDao = new EarningsDAO();
 			earningsDao.infoEarnings(totalPrice, branch);
 
-			//商品購入後のウォレットの残高を取得
+			// 商品購入後のウォレットの残高を取得
 			int updBalance = walletdao.updWallet(user, totalPrice);
 
 			System.out.println("購入が完了しました。");
@@ -110,7 +119,6 @@ public class Client {
 		System.out.println("チャージ金額を入力してください。");
 		int charge = sc.nextInt();
 
-
 		// 金額確認
 		System.out.println("チャージ金額は以下でよろしいですか？");
 		System.out.println("チャージ金額：" + charge + "円");
@@ -121,14 +129,15 @@ public class Client {
 		if (answer == 1) {
 			updBalance = dao.updWalletCharge(user, charge);
 
-			//チャージ後の金額を表示する
+			// チャージ後の金額を表示する
 			System.out.println("チャージが完了しました。");
 			System.out.println("ウォレット残高：" + updBalance + "円");
 
-		//選択肢が「いいえ」の場合、チャージ金額の入力に戻る
+			// 選択肢が「いいえ」の場合、チャージ金額の入力に戻る
 		} else if (answer == 2) {
-				walletCharge(user);
-		}return updBalance;
+			walletCharge(user);
+		}
+		return updBalance;
 	}
 
 }
