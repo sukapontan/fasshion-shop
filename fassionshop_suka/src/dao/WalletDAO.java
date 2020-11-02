@@ -6,15 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import common.Constant;
 import entity.UserEntity;
 import model.Client;
 
 public class WalletDAO {
-
-	// データベース接続に使用する情報
-	private final String JDBC_URL = "jdbc:mysql://localhost/fashionshop_suka";
-	private final String DB_USER = "root";
-	private final String DB_PASS = "Sukapontan0303";
 
 	// 購入後のウォレット残高の更新処理
 	public int updWallet(UserEntity user, int totalPrice) {
@@ -23,7 +19,7 @@ public class WalletDAO {
 		int updBalance = 0;
 
 		// データベース接続
-		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// SELECT文の準備
 			String sql = "SELECT BALANCE FROM WALLET WHERE USER_ID = ?";
@@ -91,7 +87,7 @@ public class WalletDAO {
 		int updBalance = 0;
 
 		// データベース接続
-		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// SELECT文の準備
 			String sql = "SELECT BALANCE FROM WALLET WHERE USER_ID = ?";

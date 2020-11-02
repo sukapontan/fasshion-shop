@@ -6,15 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import common.Constant;
 import entity.UserEntity;
 import model.Client;
 
 public class StockDAO {
-
-	// データベース接続に使用する情報
-	private final String JDBC_URL = "jdbc:mysql://localhost/fashionshop_suka";
-	private final String DB_USER = "root";
-	private final String DB_PASS = "Sukapontan0303";
 
 	// 商品購入に関する処理
 	public int purchase(int branch, String colorSelect, String sizeSelect) {
@@ -24,7 +20,7 @@ public class StockDAO {
 		int quantity = 0;
 
 		// データベース接続
-		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// SELECT文の準備
 			String sql = "SELECT * FROM STOCK WHERE BRANCH_ID = ? AND COLOR = ? AND SIZE = ?";
@@ -57,7 +53,7 @@ public class StockDAO {
 	public void updStock(int branch, String color, String size, int number, UserEntity user) {
 
 		// データベース接続
-		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// SQL文の準備
 			String sql = "SELECT QUANTITY FROM STOCK WHERE BRANCH_ID = ? AND COLOR = ? AND SIZE = ?";
@@ -112,7 +108,7 @@ public class StockDAO {
 	public void chkStock(int branch_id) {
 
 		// データベース接続
-		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// SQL文の準備
 			String sql = "SELECT * FROM STOCK WHERE BRANCH_ID = ?";
@@ -156,7 +152,7 @@ public class StockDAO {
 	//発注後の在庫更新処理
 	public void orderUpdStock(int branch_id,int orderQuantity,String color,String size,int price){
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// SQL文の準備
 			String sql = "SELECT * FROM STOCK WHERE BRANCH_ID = ? AND COLOR = ? AND SIZE = ?";

@@ -7,14 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import common.Constant;
 import entity.StockOrderEntity;
 
 public class StockOrderDAO {
-
-	// データベース接続に使用する情報
-	private final String JDBC_URL = "jdbc:mysql://localhost/fashionshop_suka";
-	private final String DB_USER = "root";
-	private final String DB_PASS = "Sukapontan0303";
 
 	// 商品発注に関する処理
 	public int productOrder(String color, String size, int price, int branch_id, int orderQuantity) {
@@ -22,7 +18,7 @@ public class StockOrderDAO {
 		// 実行結果件数
 		int result = 0;
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// INSERT文の準備
 			String sql = "INSERT INTO STOCKORDER (PRODUCT_NAME,COLOR,SIZE,PRICE,BRANCH_ID,ORDER_QUANTITY,DEL_FLG,STATUS) VALUES('スカＴシャツ',?,?,?,?,?,0,10)";
@@ -53,7 +49,7 @@ public class StockOrderDAO {
 	// 発注履歴の表示に関する処理
 	public void productOrderCheck(int branch_id) {
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// SELECT文の準備
 			String sql = "SELECT * FROM STOCKORDER WHERE BRANCH_ID = ? AND STATUS = 10";
@@ -101,7 +97,7 @@ public class StockOrderDAO {
 		//int quantity = 0;
 		StockOrderEntity entity = null;
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// SELECT文の準備
 			String sql = "SELECT * FROM STOCKORDER WHERE BRANCH_ID = ? AND STATUS = 10";
@@ -141,7 +137,7 @@ public class StockOrderDAO {
 	// 発注承認に関する処理(ステータス更新)
 	public void orderApproval(int branch_id,int order_quantity,String color,String size) {
 
-		try (Connection conn = DriverManager.getConnection(JDBC_URL, DB_USER, DB_PASS)) {
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// UPDATE文の準備
 			String sql = "UPDATE STOCKORDER SET STATUS = 20 WHERE BRANCH_ID = ? AND COLOR = ? AND SIZE = ?";
