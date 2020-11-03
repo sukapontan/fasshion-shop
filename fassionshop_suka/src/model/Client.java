@@ -31,13 +31,15 @@ public class Client {
 
 		Scanner sc = new Scanner(System.in);
 
-		int branch = sc.nextInt();
+
 		String branchName = null;
 		String color = null;
+		String size = null;
 
 		// 購入する支店を選択
 		System.out.println("購入する支店を選択してください。");
 		System.out.println("1：L・A支店\n2：埼玉国スカ支店\n3：赤坂支店");
+		int branch = sc.nextInt();
 
 		if (branch == 1) {
 			branchName = "L・A支店";
@@ -45,6 +47,9 @@ public class Client {
 			branchName = "埼玉国スカ支店";
 		} else if (branch == 3) {
 			branchName = "赤坂支店";
+		} else {
+			System.out.println("入力に誤りがあります。");
+			purchase(user);
 		}
 
 		// カラー選択
@@ -58,12 +63,26 @@ public class Client {
 			color = "緑";
 		} else if (colorSelect == 3) {
 			color = "黒";
+		} else {
+			System.out.println("入力に誤りがあります。支店選択からやり直します。");
+			purchase(user);
 		}
 
 		// サイズ選択
 		System.out.println("購入する商品のサイズを選択ください。");
-		System.out.println("S\nM\nL");
-		String sizeSelect = sc.next();
+		System.out.println("1:S\n2:M\n3:L");
+		int sizeSelect = sc.nextInt();
+
+		if (sizeSelect == 1) {
+			size = "S";
+		} else if (sizeSelect == 2) {
+			size = "M";
+		} else if (sizeSelect == 3) {
+			size = "L";
+		} else {
+			System.out.println("入力に誤りがあります。支店選択からやり直します。");
+			purchase(user);
+		}
 
 		// 数量入力
 		System.out.println("購入枚数を入力してください。");
@@ -73,12 +92,12 @@ public class Client {
 		System.out.println("お客様が選択した商品は以下の内容になります。");
 		System.out.println("購入支店；" + branchName);
 		System.out.println("カラー：" + color);
-		System.out.println("サイズ：" + sizeSelect);
+		System.out.println("サイズ：" + size);
 		System.out.println("購入枚数：" + number);
 
 		// 購入金額を表示後、購入意思確認
 		StockDAO dao = new StockDAO();
-		int price = dao.purchase(branch, color, sizeSelect);
+		int price = dao.purchase(branch, color, size);
 		int totalPrice = number * price;
 		System.out.println("お支払金額は" + totalPrice + "円です。");
 		System.out.println("購入しますか？");
@@ -89,7 +108,7 @@ public class Client {
 		// 「はい」の場合、STOCKテーブルとWALLETテーブルにUPDATE文、EARNINGSテーブルにINSERT文を投げる
 		if (fix == 1) {
 			// STOCK（在庫）テーブル更新処理
-			dao.updStock(branch, color, sizeSelect, number, user);
+			dao.updStock(branch, color, size, number, user);
 			// WALLET（ウォレット）テーブル更新処理
 			WalletDAO walletdao = new WalletDAO();
 			// EARNINGS（売上情報）テーブル更新処理
