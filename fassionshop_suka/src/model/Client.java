@@ -31,14 +31,14 @@ public class Client {
 
 		Scanner sc = new Scanner(System.in);
 
-
 		String branchName = null;
 		String color = null;
 		String size = null;
+		String product_name = null;
 
 		// 購入する支店を選択
 		System.out.println("購入する支店を選択してください。");
-		System.out.println("1：L・A支店\n2：埼玉国スカ支店\n3：赤坂支店");
+		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
 		int branch = sc.nextInt();
 
 		if (branch == 1) {
@@ -49,6 +49,17 @@ public class Client {
 			branchName = "赤坂支店";
 		} else {
 			System.out.println("入力に誤りがあります。");
+			purchase(user);
+		}
+
+		// 商品選択
+		System.out.println("購入する商品を選択してください。\n※現在、取り扱っている商品はスカＴシャツのみとなります。");
+		System.out.println("1:スカＴシャツ");
+		int product_code = sc.nextInt();
+		if (product_code == 1) {
+			product_name = "スカＴシャツ";
+		} else {
+			System.out.println("入力に誤りがあります。支店選択からやり直します。");
 			purchase(user);
 		}
 
@@ -113,7 +124,7 @@ public class Client {
 			WalletDAO walletdao = new WalletDAO();
 			// EARNINGS（売上情報）テーブル更新処理
 			EarningsDAO earningsDao = new EarningsDAO();
-			earningsDao.infoEarnings(totalPrice, branch);
+			earningsDao.infoEarnings(totalPrice, branch, product_name, number, color, size);
 
 			// 商品購入後のウォレットの残高を取得
 			int updBalance = walletdao.updWallet(user, totalPrice);

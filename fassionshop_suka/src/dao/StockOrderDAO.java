@@ -64,7 +64,7 @@ public class StockOrderDAO {
 			// 結果表から発注履歴情報を取得
 			while (rs.next()) {
 
-				//発注情報を表示する処理を記述
+				// 発注情報を表示する処理を記述
 				String product_name = rs.getString("product_name");
 				int price = rs.getInt("price");
 				String color = rs.getString("color");
@@ -93,8 +93,6 @@ public class StockOrderDAO {
 	public ArrayList<StockOrderEntity> getQuantity(int branch_id) {
 
 		ArrayList<StockOrderEntity> list = new ArrayList<StockOrderEntity>();
-		//int updQuantity = 0;
-		//int quantity = 0;
 		StockOrderEntity entity = null;
 
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
@@ -120,8 +118,6 @@ public class StockOrderDAO {
 				entity.setStatus(rs.getInt("status"));
 				list.add(entity);
 
-				//quantity = rs.getInt("order_quantity");
-				//updQuantity += quantity;
 			}
 
 			pStmt.close();
@@ -135,7 +131,7 @@ public class StockOrderDAO {
 	}
 
 	// 発注承認に関する処理(ステータス更新)
-	public void orderApproval(int branch_id,int order_quantity,String color,String size) {
+	public void orderApproval(int branch_id, int order_quantity, String color, String size) {
 
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 

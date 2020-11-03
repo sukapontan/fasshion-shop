@@ -7,6 +7,7 @@ import dao.EarningsDAO;
 import dao.StockDAO;
 import dao.StockOrderDAO;
 import dao.userDAO;
+import entity.EarningsEntity;
 import entity.StockOrderEntity;
 import entity.UserEntity;
 
@@ -139,7 +140,6 @@ public class Admin {
 
 		// 在庫の発注を表示する
 		System.out.println(branch + "の発注状況");
-		//在庫の発注情報が表示出来てないため、修正中
 		dao.productOrderCheck(branch_id);
 
 		// 発注を承認するか確認
@@ -147,20 +147,19 @@ public class Admin {
 		System.out.println("1:はい\n2:いいえ");
 		int answer = sc.nextInt();
 		if (answer == 1) {
-			//STOCKORDERテーブルから発注数を取得する
+			// STOCKORDERテーブルから発注数を取得する
 			ArrayList<StockOrderEntity> list = new ArrayList<StockOrderEntity>();
 			list = dao.getQuantity(branch_id);
 
-			//※修正中
-			for(StockOrderEntity entity :list){
-			int orderQuantity = entity.getOrder_quantity();
-			String color = entity.getColor();
-			String size = entity.getSize();
-			int price = entity.getPrice();
-			//STOCKORDERテーブルのステータスを更新する
-			dao.orderApproval(branch_id,orderQuantity,color,size);
-			//STOCKテーブルの在庫を更新する
-			stockDao.orderUpdStock(branch_id, orderQuantity, color, size, price);
+			for (StockOrderEntity entity : list) {
+				int orderQuantity = entity.getOrder_quantity();
+				String color = entity.getColor();
+				String size = entity.getSize();
+				int price = entity.getPrice();
+				// STOCKORDERテーブルのステータスを更新する
+				dao.orderApproval(branch_id, orderQuantity, color, size);
+				// STOCKテーブルの在庫を更新する
+				stockDao.orderUpdStock(branch_id, orderQuantity, color, size, price);
 			}
 
 		} else if (answer == 2) {
@@ -198,9 +197,9 @@ public class Admin {
 		}
 
 		// 選択した支店の売り上げを表示する
+		System.out.println("【売上一覧】");
 		EarningsDAO earningsDao = new EarningsDAO();
-		int result = earningsDao.checkEarnings(branch_id);
-		System.out.println(branch + "の合計売上金額は" + result + "円です。");
+		ArrayList<EarningsEntity> result = earningsDao.checkEarnings(branch_id);
 
 	}
 }

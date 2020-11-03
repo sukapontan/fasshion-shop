@@ -5,13 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import common.Constant;
+import entity.EarningsEntity;
 
 public class EarningsDAO {
 
 	// 売上情報登録に関する処理
-	public int infoEarnings(int totalPrice, int branch_id) {
+	public int infoEarnings(int totalPrice, int branch_id, String product_name, int quantity, String color, String size) {
 
 		// 実行結果件数
 		int result = 0;
@@ -19,7 +21,7 @@ public class EarningsDAO {
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// INSERT文の準備
-			String sql = "INSERT INTO EARNINGS VALUES(NULL,?,NOW(),?,0)";
+			String sql = "INSERT INTO EARNINGS VALUES(NULL,?,NOW(),?,0,?,?,?,?)";
 
 			// オートコミットはオフ
 			// conn.setAutoCommit(false);
@@ -27,6 +29,10 @@ public class EarningsDAO {
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, totalPrice);
 			pStmt.setInt(2, branch_id);
+			pStmt.setString(3, product_name);
+			pStmt.setInt(4, quantity);
+			pStmt.setString(5,color);
+			pStmt.setString(6, size);
 
 			// INSERT文を実行
 			result = pStmt.executeUpdate();
@@ -41,12 +47,19 @@ public class EarningsDAO {
 	}
 
 	// 売上確認に関する処理
-	public int checkEarnings(int branch_id) {
+	/**
+	 * @param branch_id
+	 * @return
+	 */
+	public ArrayList<EarningsEntity> checkEarnings(int branch_id) {
+
+		ArrayList<EarningsEntity> list = new ArrayList<EarningsEntity>();
 
 		String sql = null;
 		PreparedStatement pStmt = null;
-		int earnings = 0;
-		int totalEanings = 0;
+		EarningsEntity entity = null;
+		int totalEarnings = 0;
+		String branch = null;
 
 		// データベース接続
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
@@ -67,15 +80,83 @@ public class EarningsDAO {
 
 			// 結果表からデータを取得
 			while (rs.next()) {
-				earnings = rs.getInt("earnings");
-				totalEanings += earnings;
+				entity = new EarningsEntity();
+				entity.setNumber(rs.getInt("no"));
+				entity.setEarnings(rs.getInt("earnings"));
+				entity.setBranch_id(rs.getInt("branch_id"));
+				entity.setDel_flg(rs.getInt("del_flg"));
+				entity.setProduct_name(rs.getString("product_name"));
+				entity.setQuantity(rs.getInt("quantity"));
+				entity.setColor(rs.getString("color"));
+				entity.setSize(rs.getString("size"));
+
+				System.out.print("商品名：" + entity.getProduct_name());
+				System.out.print("　販売数：" + entity.getQuantity());
+				System.out.print("　カラー：" + entity.getColor());
+				System.out.print("　サイズ：" + entity.getSize());
+				System.out.println("　売上金額：" + entity.getEarnings());
+
+				totalEarnings += rs.getInt("earnings");
+				list.add(entity);
 			}
+
+			if (branch_id == 0) {
+				branch = "全支店";
+			} else if (branch_id == 1) {
+				branch = "L・A支店";
+			} else if (branch_id == 2) {
+				branch = "埼玉国スカ支店";
+			} else if (branch_id == 3) {
+				branch = "赤坂支店";
+			}
+			System.out.println(branch + "の合計売上金額は" + totalEarnings + "円です。");
+
 			pStmt.close();
 			conn.close();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}return totalEanings;
+		}return list;
 
 	}
+
+/*	// 売上確認に関する処理
+		public int checkEarnings(int branch_id) {
+
+
+			String sql = null;
+			PreparedStatement pStmt = null;
+			int earnings = 0;
+			int totalEanings = 0;
+
+			// データベース接続
+			try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
+
+				// SELECT文の準備
+				if (branch_id == 0) {
+					// 全支店の売り上げを表示するSELECT文を準備
+					sql = "SELECT * FROM EARNINGS";
+					pStmt = conn.prepareStatement(sql);
+				} else {
+					sql = "SELECT * FROM EARNINGS WHERE BRANCH_ID = ?";
+					pStmt = conn.prepareStatement(sql);
+					pStmt.setInt(1, branch_id);
+				}
+
+				// SELECT文を実行
+				ResultSet rs = pStmt.executeQuery();
+
+				// 結果表からデータを取得
+				while (rs.next()) {
+					earnings = rs.getInt("earnings");
+					totalEanings += earnings;
+				}
+				pStmt.close();
+				conn.close();
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}return totalEanings;
+
+		}*/
 }
