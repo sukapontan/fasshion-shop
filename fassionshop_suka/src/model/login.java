@@ -2,6 +2,7 @@ package model;
 
 import java.util.Scanner;
 
+import dao.WalletDAO;
 import dao.userDAO;
 import entity.UserEntity;
 
@@ -20,21 +21,26 @@ public class login {
 		String userName = sc.next();
 		System.out.print("パスワード：");
 		String userPass = sc.next();
+		int walletBalance= 0;
 
 		// 本番用（DBにアクセスしてユーザ名とパスワードを取得）
 		userDAO dao = new userDAO();
+		WalletDAO wdao = new WalletDAO();
 		UserEntity user = dao.userLogin(userName, userPass);
+		walletBalance = wdao.getWalletBalance(user.getUser_id());
 
 		// 入力したユーザー名とパスワードが合っているか確認
 		if (userName.equals(user.getUserName()) && userPass.equals(user.getPass())) {
 			System.out.println("ようこそ" + user.getUserName() + "さん");
-			System.out.println("Wallet残高：" + user.getBalance() + "円");
+			System.out.println("Wallet残高：" + walletBalance + "円");
 		}
 		// ユーザ名またはパスワードが間違ってる場合、ログインからやり直す
 		else {
 			System.out.println("ユーザー名またはパスワードが間違っています。");
 			loginLogic();
 		}
+
+
 
 		// 【従業員】、【管理者】、【顧客】の判定を行う
 		switch (user.getUserType()) {

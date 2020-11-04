@@ -23,14 +23,13 @@ public class UserEntity implements Serializable {
 		this.user_id = user_id;
 	}
 
-	public UserEntity(int user_id, int userType, String userName, String pass, int branch, int balance) {
+	public UserEntity(int user_id, int userType, String userName, String pass, int branch) {
 		this.user_id = user_id;			//ユーザーID
 		this.userName = userName;		//ユーザ名
 		this.pass = pass;				//パスワード
 		this.userType = userType;		//ユーザー種別
 		this.branch = branch;			//支店
-		this.balance = balance;			//ウォレット残高
-	}
+			}
 
 	public int getBalance() {
 		return balance;

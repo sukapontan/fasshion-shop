@@ -20,19 +20,19 @@ public class userDAO {
 		// データベース接続
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
-			// SELECT文の準備
+/*			// SELECT文の準備
 			String sql = "SELECT ID FROM USER WHERE NAME = ?";
 			PreparedStatement pStmt1 = conn.prepareStatement(sql);
 			pStmt1.setString(1, userName);
 			ResultSet rs1 = pStmt1.executeQuery();
 			rs1.next();
-			int id = rs1.getInt("id");
+			int id = rs1.getInt("id");*/
 
-			String sql2 = "SELECT USER.ID,USER.USERTYPE,USER.NAME,USER.PASS,USER.BRANCH_ID,WALLET.BALANCE FROM USER,WALLET WHERE USER.NAME = ? AND USER.PASS = ? AND WALLET.USER_ID = ?";
+			String sql2 = "SELECT * FROM USER WHERE USER.NAME = ? AND USER.PASS = ?";
 			PreparedStatement pStmt2 = conn.prepareStatement(sql2);
 			pStmt2.setString(1, userName);
 			pStmt2.setString(2, userPass);
-			pStmt2.setInt(3, id);
+
 
 			// SELECT文を実行
 			ResultSet rs = pStmt2.executeQuery();
@@ -45,17 +45,14 @@ public class userDAO {
 				String name = rs.getString("name"); // 名前
 				String pass = rs.getString("pass"); // パスワード
 				int branch_id = rs.getInt("branch_id"); // 支店ID
-				int balance = rs.getInt("balance"); // ウォレット残高
 
-				loginUser = new UserEntity(userId, userType, name, pass, branch_id, balance);
+				loginUser = new UserEntity(userId, userType, name, pass, branch_id);
 
-				pStmt1.close();
 				pStmt2.close();
 				conn.close();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
 		return loginUser;
 	}

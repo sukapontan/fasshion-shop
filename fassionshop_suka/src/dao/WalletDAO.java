@@ -12,6 +12,36 @@ import model.Client;
 
 public class WalletDAO {
 
+	// ログインしたユーザーのウォレット残高を取得
+	public int getWalletBalance(int user_id) {
+
+		int walletBalance = 0;
+
+		// データベース接続
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
+
+			// SELECT文の準備
+			String sql = "SELECT BALANCE FROM WALLET WHERE USER_ID = ?";
+
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, user_id);
+
+			// SELECT文を実行
+			ResultSet rs = pStmt.executeQuery();
+
+			// 結果表からウォレット残高を取得
+			rs.next();
+			walletBalance = rs.getInt("balance");
+
+			pStmt.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return walletBalance;
+	}
+
 	// 購入後のウォレット残高の更新処理
 	public int updWallet(UserEntity user, int totalPrice) {
 
