@@ -15,7 +15,7 @@ public class userDAO {
 	// ログインするユーザーの情報を取得する処理
 	public UserEntity userLogin(String userName, String userPass) {
 
-		UserEntity loginUser = new UserEntity();
+		UserEntity loginUser = null;
 
 		// データベース接続
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {

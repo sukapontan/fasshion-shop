@@ -27,7 +27,12 @@ public class login {
 		userDAO dao = new userDAO();
 		WalletDAO wdao = new WalletDAO();
 		UserEntity user = dao.userLogin(userName, userPass);
-		walletBalance = wdao.getWalletBalance(user.getUser_id());
+		if(user != null){
+			walletBalance = wdao.getWalletBalance(user.getUser_id());
+		}else{
+			System.out.println("ユーザー名またはパスワードが間違っています。");
+			loginLogic();
+		}
 
 		// 入力したユーザー名とパスワードが合っているか確認
 		if (userName.equals(user.getUserName()) && userPass.equals(user.getPass())) {
