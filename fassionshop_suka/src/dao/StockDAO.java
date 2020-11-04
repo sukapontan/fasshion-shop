@@ -123,6 +123,7 @@ public class StockDAO {
 			while (rs.next()) {
 
 				int branchCode = rs.getInt("branch_id"); // 支店コード
+				String branchName = rs.getString("branch_name"); // 支店名
 				int productCode = rs.getInt("product_code"); // 商品コード
 				String productName = rs.getString("product_name"); // 商品名
 				String color = rs.getString("color"); // カラー
@@ -130,7 +131,7 @@ public class StockDAO {
 				int price = rs.getInt("price"); // 価格
 				int quantity = rs.getInt("quantity"); // 数量
 
-				System.out.print(" 支店コート：" + branchCode);
+				System.out.print(" 支店名：" + branchName);
 				System.out.print(" 商品コード：" + productCode);
 				System.out.print(" 商品名：" + productName);
 				System.out.print(" カラー：" + color);

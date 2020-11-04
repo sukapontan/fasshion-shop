@@ -9,7 +9,7 @@ import entity.UserEntity;
 public class Employee {
 
 	public static void employeeOpe(UserEntity user) {
-		UserEntity user1 = user;
+		//UserEntity user1 = user;
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("作業内容を選択してください。");
@@ -19,13 +19,24 @@ public class Employee {
 		String operation = sc.next();
 
 		if (operation.equals("1")) {
-			stockConfirmation(user1);
+			stockConfirmation(user);
 		} else if (operation.equals("2")) {
-			stockOrder(user1);
+			stockOrder(user);
 		}
 	}
 
 	// 在庫の確認に関する処理
+	public static void stockConfirmation(UserEntity user) {
+
+		StockDAO dao = new StockDAO();
+		int branch_id = user.getBranch();
+
+		// 所属している店舗の在庫を表示する
+		dao.chkStock(branch_id);
+
+	}
+
+/*	// 在庫の確認に関する処理
 	public static void stockConfirmation(UserEntity user) {
 
 		StockDAO dao = new StockDAO();
@@ -50,7 +61,7 @@ public class Employee {
 			break;
 		}
 
-	}
+	}*/
 
 	// 在庫の発注に関する処理
 	public static void stockOrder(UserEntity user) {
@@ -60,6 +71,9 @@ public class Employee {
 		Scanner sc = new Scanner(System.in);
 
 		// 所属している店舗の在庫を表示する
+		dao.chkStock(branch_id);
+
+		/*// 所属している店舗の在庫を表示する
 		switch (branch_id) {
 		case 1:
 			// L.A支店の在庫を表示
@@ -76,7 +90,7 @@ public class Employee {
 			System.out.println("【赤坂支店の在庫】");
 			dao.chkStock(branch_id);
 			break;
-		}
+		}*/
 
 		// 発注する商品の選択
 		System.out.println("発注する商品の情報を入力してください。");
