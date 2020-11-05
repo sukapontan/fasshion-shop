@@ -27,8 +27,26 @@ public class login {
 		userDAO dao = new userDAO();
 		WalletDAO wdao = new WalletDAO();
 		UserEntity user = dao.userLogin(userName, userPass);
-		if(user != null){
+
+		//userEntityがnullの場合（検索結果０件）
+		if(user == null){
+			System.out.println("ユーザー名またはパスワードが間違っています。");
+			loginLogic();
+		}
+		//usertypeが3（顧客）
+		else if(user.getUserType() == 3){
 			walletBalance = wdao.getWalletBalance(user.getUser_id());
+			System.out.println("ようこそ" + user.getUserName() + "さん");
+			System.out.println("Wallet残高：" + walletBalance + "円");
+		}
+		//usertypeが3以外（従業員、管理者）
+		else {
+			System.out.println("ようこそ" + user.getUserName() + "さん");
+		}
+
+
+		/*if(user != null){
+
 		}else{
 			System.out.println("ユーザー名またはパスワードが間違っています。");
 			loginLogic();
@@ -43,7 +61,7 @@ public class login {
 		else {
 			System.out.println("ユーザー名またはパスワードが間違っています。");
 			loginLogic();
-		}
+		}*/
 
 
 
