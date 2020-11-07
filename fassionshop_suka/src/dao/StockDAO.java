@@ -5,8 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import common.Constant;
+import entity.StockEntity;
 import entity.UserEntity;
 import model.Client;
 
@@ -105,7 +107,9 @@ public class StockDAO {
 	}
 
 	// 指定された支店の在庫を取得
-	public void chkStock(int branch_id) {
+	public ArrayList<StockEntity> chkStock(int branch_id) {
+
+		ArrayList<StockEntity> list = new ArrayList<StockEntity>();
 
 		// データベース接続
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
@@ -121,37 +125,29 @@ public class StockDAO {
 
 			// 結果表から在庫情報を取得し、表示する
 			while (rs.next()) {
+				StockEntity entity = new StockEntity();
+				entity.setBranchCode(rs.getInt("branch_id")); // 支店コード
+				entity.setBranchName(rs.getString("branch_name")); // 支店名
+				entity.setProductCode(rs.getInt("product_code")); // 商品コード
+				entity.setProductName(rs.getString("product_name")); // 商品名
+				entity.setColor(rs.getString("color")); // カラー
+				entity.setSize(rs.getString("size")); // サイズ
+				entity.setPrice(rs.getInt("price")); // 価格
+				entity.setNumber(rs.getInt("quantity")); // 数量
 
-				int branchCode = rs.getInt("branch_id"); // 支店コード
-				String branchName = rs.getString("branch_name"); // 支店名
-				int productCode = rs.getInt("product_code"); // 商品コード
-				String productName = rs.getString("product_name"); // 商品名
-				String color = rs.getString("color"); // カラー
-				String size = rs.getString("size"); // サイズ
-				int price = rs.getInt("price"); // 価格
-				int quantity = rs.getInt("quantity"); // 数量
-
-				System.out.print(" 支店名：" + branchName);
-				System.out.print(" 商品コード：" + productCode);
-				System.out.print(" 商品名：" + productName);
-				System.out.print(" カラー：" + color);
-				System.out.print(" サイズ：" + size);
-				System.out.print(" 価格：" + price);
-				System.out.print(" 数量：" + quantity + "\n");
-
+				list.add(entity);
 			}
-
 			pStmt.close();
 			conn.close();
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return list;
 
 	}
 
-	//発注後の在庫更新処理
-	public void orderUpdStock(int branch_id,int orderQuantity,String color,String size,int price){
+	// 発注後の在庫更新処理
+	public void orderUpdStock(int branch_id, int orderQuantity, String color, String size, int price) {
 
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 

@@ -35,6 +35,7 @@ public class Admin {
 			case 1:
 				personalCheck(user);
 				break;
+
 			case 2:
 				personalPlacement(user);
 				break;
@@ -132,6 +133,9 @@ public class Admin {
 				System.out.println(list.getUserName());
 			}
 			break;
+		default:
+			System.out.println("支店が存在しません。\n正しい支店番号を選択してください。");
+			personalPlacement(user);
 		}
 
 		System.out.println("配置を変更する人員を入力してください。");

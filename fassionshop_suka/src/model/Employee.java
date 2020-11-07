@@ -1,9 +1,11 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import dao.StockDAO;
 import dao.StockOrderDAO;
+import entity.StockEntity;
 import entity.UserEntity;
 
 public class Employee {
@@ -25,7 +27,7 @@ public class Employee {
 				stockConfirmation(user);
 			} else if (operation.equals("2")) {
 				stockOrder(user);
-			} else{
+			} else {
 				System.out.println(user.getUserName() + "さん。\nお疲れ様でした。");
 				endFlg = false;
 			}
@@ -38,36 +40,43 @@ public class Employee {
 
 		StockDAO dao = new StockDAO();
 		int branch_id = user.getBranch();
+		ArrayList<StockEntity> entity = null;
 
 		// 所属している店舗の在庫を表示する
-		dao.chkStock(branch_id);
+		entity = dao.chkStock(branch_id);
+		// 所属している店舗の在庫を表示する
+		entity = dao.chkStock(branch_id);
+		for (StockEntity list : entity) {
+			System.out.print(" 支店名：" + list.getBranchName());
+			System.out.print(" 商品コード：" + list.getBranchCode());
+			System.out.print(" 商品名：" + list.getProductName());
+			System.out.print(" カラー：" + list.getColor());
+			System.out.print(" サイズ：" + list.getSize());
+			System.out.print(" 価格：" + list.getPrice());
+			System.out.print(" 数量：" + list.getNumber() + "\n");
+		}
 
 	}
-
-	/*
-	 * // 在庫の確認に関する処理 public static void stockConfirmation(UserEntity user) {
-	 *
-	 * StockDAO dao = new StockDAO(); int branch_id = user.getBranch();
-	 *
-	 * // 所属している店舗の在庫を表示する switch (branch_id) { case 1: // L.A支店の在庫を表示
-	 * dao.chkStock(branch_id); System.out.println("【L.A支店の在庫】"); break; case 2:
-	 * // 埼玉国スカ支店の在庫を表示 System.out.println("【埼玉国スカ支店の商品在庫】");
-	 * dao.chkStock(branch_id); break; case 3: // 赤坂支店の在庫を表示
-	 * System.out.println("【赤坂支店の在庫】"); dao.chkStock(branch_id); break; }
-	 *
-	 * }
-	 */
 
 	// 在庫の発注に関する処理
 	public static void stockOrder(UserEntity user) {
 
 		StockDAO dao = new StockDAO();
 		int branch_id = user.getBranch();
+		ArrayList<StockEntity> entity = null;
 		Scanner sc = new Scanner(System.in);
 
 		// 所属している店舗の在庫を表示する
-		dao.chkStock(branch_id);
-
+		entity = dao.chkStock(branch_id);
+		for (StockEntity list : entity) {
+			System.out.print(" 支店名：" + list.getBranchName());
+			System.out.print(" 商品コード：" + list.getBranchCode());
+			System.out.print(" 商品名：" + list.getProductName());
+			System.out.print(" カラー：" + list.getColor());
+			System.out.print(" サイズ：" + list.getSize());
+			System.out.print(" 価格：" + list.getPrice());
+			System.out.print(" 数量：" + list.getNumber() + "\n");
+		}
 		/*
 		 * // 所属している店舗の在庫を表示する switch (branch_id) { case 1: // L.A支店の在庫を表示
 		 * dao.chkStock(branch_id); System.out.println("【L.A支店の在庫】"); break;
