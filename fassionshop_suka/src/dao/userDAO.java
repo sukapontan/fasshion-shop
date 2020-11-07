@@ -21,13 +21,6 @@ public class userDAO {
 		// データベース接続
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
-			/*
-			 * // SELECT文の準備 String sql = "SELECT ID FROM USER WHERE NAME = ?";
-			 * PreparedStatement pStmt1 = conn.prepareStatement(sql);
-			 * pStmt1.setString(1, userName); ResultSet rs1 =
-			 * pStmt1.executeQuery(); rs1.next(); int id = rs1.getInt("id");
-			 */
-
 			String sql = "SELECT * FROM USER WHERE USER.NAME = ? AND USER.PASS = ?";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setString(1, userName);
@@ -44,8 +37,9 @@ public class userDAO {
 				String name = rs.getString("name"); // 名前
 				String pass = rs.getString("pass"); // パスワード
 				int branch_id = rs.getInt("branch_id"); // 支店ID
+				String branch_name = rs.getString("branch_name");//支店名
 
-				loginUser = new UserEntity(userId, userType, name, pass, branch_id);
+				loginUser = new UserEntity(userId, userType, name, pass, branch_id, branch_name);
 
 				pStmt.close();
 				conn.close();
@@ -59,9 +53,7 @@ public class userDAO {
 	// 人員確認に関する処理
 	public ArrayList<UserEntity> personnelConfirmation(int branch_id) {
 
-		// 配列で人員情報を表示できないか検討中 2020/10/19
 		ArrayList<UserEntity> list = new ArrayList<UserEntity>();
-		// String employeeName = null;
 
 		// データベース接続
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {

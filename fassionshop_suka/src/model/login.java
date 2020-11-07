@@ -42,6 +42,7 @@ public class login {
 		// usertypeが3以外（従業員、管理者）
 		else {
 			System.out.println("ようこそ" + user.getUserName() + "さん");
+			System.out.println("【在籍支店】：" + user.getBranch_name());
 		}
 
 		/*

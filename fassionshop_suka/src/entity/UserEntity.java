@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 public class UserEntity implements Serializable {
 
-	private int user_id;		//ユーザーID
-	private int userType; 		//ユーザー種別
-	private String userName;	//ユーザー名
-	private String pass; 		//パスワード
-	private int branch; 		// 支店
-	private int balance;		//ウォレット残高
+	private int user_id; // ユーザーID
+	private int userType; // ユーザー種別
+	private String userName; // ユーザー名
+	private String pass; // パスワード
+	private int branch; // 支店
+	private int balance; // ウォレット残高
+	private String branch_name;// 支店名
 
 	// デフォルトコンストラクタ
 	public UserEntity() {
@@ -23,13 +24,22 @@ public class UserEntity implements Serializable {
 		this.user_id = user_id;
 	}
 
-	public UserEntity(int user_id, int userType, String userName, String pass, int branch) {
-		this.user_id = user_id;			//ユーザーID
-		this.userName = userName;		//ユーザ名
-		this.pass = pass;				//パスワード
-		this.userType = userType;		//ユーザー種別
-		this.branch = branch;			//支店
-			}
+	public UserEntity(int user_id, int userType, String userName, String pass, int branch, String branch_name) {
+		this.user_id = user_id; // ユーザーID
+		this.userName = userName; // ユーザ名
+		this.pass = pass; // パスワード
+		this.userType = userType; // ユーザー種別
+		this.branch = branch; // 支店
+		this.branch_name = branch_name;// 支店名
+	}
+
+	public String getBranch_name() {
+		return branch_name;
+	}
+
+	public void setBranch_name(String branch_name) {
+		this.branch_name = branch_name;
+	}
 
 	public int getBalance() {
 		return balance;
