@@ -7,10 +7,12 @@ create table user(id int not null primary key auto_increment,userType int not nu
 insert into user(userType,name,pass,branch_id) values(1,"従業員","eee",3);
 insert into user(userType,name,pass,branch_id) values(2,"管理者","aaa",2);
 insert into user(userType,name,pass,branch_id) values(3,"顧客","ccc",1);
-insert into user(userType,name,pass,branch_id) values(1,"emp","emp",3);
-insert into user(userType,name,pass,branch_id) values(2,"admin","admin",2);
-insert into user(userType,name,pass,branch_id) values(3,"user","user",1);
 
+ユーザーテーブルカラム追加SQL(2020/11/07)
+alter table user add branch_name varchar(10);
+update user set branch_name = 'L・A支店' where branch_id = 1;
+update user set branch_name = '埼玉国スカ支店' where branch_id = 2;
+update user set branch_name = '赤坂支店' where branch_id = 3;
 
 ウォレットテーブル
 create table wallet(user_id int not null primary key,balance int,update_date datetime);
