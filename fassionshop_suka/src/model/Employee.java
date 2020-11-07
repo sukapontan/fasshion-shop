@@ -9,19 +9,27 @@ import entity.UserEntity;
 public class Employee {
 
 	public static void employeeOpe(UserEntity user) {
-		//UserEntity user1 = user;
+
 		Scanner sc = new Scanner(System.in);
+		boolean endFlg = true;
 
-		System.out.println("作業内容を選択してください。");
-		System.out.println("1:在庫の確認をする");
-		System.out.println("2:在庫の発注をする");
+		while (endFlg) {
+			System.out.println("作業内容を選択してください。");
+			System.out.println("1:在庫の確認をする");
+			System.out.println("2:在庫の発注をする");
+			System.out.println("上記以外:従業員操作を終了する");
 
-		String operation = sc.next();
+			String operation = sc.next();
 
-		if (operation.equals("1")) {
-			stockConfirmation(user);
-		} else if (operation.equals("2")) {
-			stockOrder(user);
+			if (operation.equals("1")) {
+				stockConfirmation(user);
+			} else if (operation.equals("2")) {
+				stockOrder(user);
+			} else{
+				System.out.println(user.getUserName() + "さん。\nお疲れ様でした。");
+				endFlg = false;
+			}
+			System.out.println("");
 		}
 	}
 
@@ -36,32 +44,19 @@ public class Employee {
 
 	}
 
-/*	// 在庫の確認に関する処理
-	public static void stockConfirmation(UserEntity user) {
-
-		StockDAO dao = new StockDAO();
-		int branch_id = user.getBranch();
-
-		// 所属している店舗の在庫を表示する
-		switch (branch_id) {
-		case 1:
-			// L.A支店の在庫を表示
-			dao.chkStock(branch_id);
-			System.out.println("【L.A支店の在庫】");
-			break;
-		case 2:
-			// 埼玉国スカ支店の在庫を表示
-			System.out.println("【埼玉国スカ支店の商品在庫】");
-			dao.chkStock(branch_id);
-			break;
-		case 3:
-			// 赤坂支店の在庫を表示
-			System.out.println("【赤坂支店の在庫】");
-			dao.chkStock(branch_id);
-			break;
-		}
-
-	}*/
+	/*
+	 * // 在庫の確認に関する処理 public static void stockConfirmation(UserEntity user) {
+	 *
+	 * StockDAO dao = new StockDAO(); int branch_id = user.getBranch();
+	 *
+	 * // 所属している店舗の在庫を表示する switch (branch_id) { case 1: // L.A支店の在庫を表示
+	 * dao.chkStock(branch_id); System.out.println("【L.A支店の在庫】"); break; case 2:
+	 * // 埼玉国スカ支店の在庫を表示 System.out.println("【埼玉国スカ支店の商品在庫】");
+	 * dao.chkStock(branch_id); break; case 3: // 赤坂支店の在庫を表示
+	 * System.out.println("【赤坂支店の在庫】"); dao.chkStock(branch_id); break; }
+	 *
+	 * }
+	 */
 
 	// 在庫の発注に関する処理
 	public static void stockOrder(UserEntity user) {
@@ -73,24 +68,13 @@ public class Employee {
 		// 所属している店舗の在庫を表示する
 		dao.chkStock(branch_id);
 
-		/*// 所属している店舗の在庫を表示する
-		switch (branch_id) {
-		case 1:
-			// L.A支店の在庫を表示
-			dao.chkStock(branch_id);
-			System.out.println("【L.A支店の在庫】");
-			break;
-		case 2:
-			// 埼玉国スカ支店の在庫を表示
-			System.out.println("【埼玉国スカ支店の商品在庫】");
-			dao.chkStock(branch_id);
-			break;
-		case 3:
-			// 赤坂支店の在庫を表示
-			System.out.println("【赤坂支店の在庫】");
-			dao.chkStock(branch_id);
-			break;
-		}*/
+		/*
+		 * // 所属している店舗の在庫を表示する switch (branch_id) { case 1: // L.A支店の在庫を表示
+		 * dao.chkStock(branch_id); System.out.println("【L.A支店の在庫】"); break;
+		 * case 2: // 埼玉国スカ支店の在庫を表示 System.out.println("【埼玉国スカ支店の商品在庫】");
+		 * dao.chkStock(branch_id); break; case 3: // 赤坂支店の在庫を表示
+		 * System.out.println("【赤坂支店の在庫】"); dao.chkStock(branch_id); break; }
+		 */
 
 		// 発注する商品の選択
 		System.out.println("発注する商品の情報を入力してください。");
@@ -115,12 +99,12 @@ public class Employee {
 		System.out.println("1：はい\n2：いいえ");
 		int answer = sc.nextInt();
 
-		//「はい」の場合、DBに発注SQLを投げる処理へ
-		if(answer == 1){
+		// 「はい」の場合、DBに発注SQLを投げる処理へ
+		if (answer == 1) {
 			StockOrderDAO orderDao = new StockOrderDAO();
-			int result = orderDao.productOrder(color,size,price,branch_id,quantity);
+			int result = orderDao.productOrder(color, size, price, branch_id, quantity);
 			System.out.println(result + "件の発注を完了いたしました。");
-		}else{
+		} else {
 			stockOrder(user);
 		}
 

@@ -15,32 +15,39 @@ public class Admin {
 
 	//
 	public static void adminOpe(UserEntity user) {
-		UserEntity user1 = user;
+
 		Scanner sc = new Scanner(System.in);
+		boolean endFlg = true;
 
-		System.out.println("作業内容を選択してください。");
-		System.out.println("1:人員確認");
-		System.out.println("2:人員配置");
-		System.out.println("3:発注承認");
-		System.out.println("4:売上確認");
+		while (endFlg) {
+			System.out.println("作業内容を選択してください。");
+			System.out.println("1:人員確認");
+			System.out.println("2:人員配置の変更");
+			System.out.println("3:発注承認");
+			System.out.println("4:売上確認");
+			System.out.println("上記以外：管理者操作を終了する");
 
-		// 入力した値を変数に格納
-		int operation = sc.nextInt();
+			// 入力した値を変数に格納
+			int operation = sc.nextInt();
 
-		// 入力した値で処理を分岐
-		switch (operation) {
-		case 1:
-			personalCheck(user1);
-			break;
-		case 2:
-			personalPlacement(user1);
-			break;
-		case 3:
-			approval(user1);
-			break;
-		case 4:
-			salesonfirmation(user1);
-			break;
+			// 入力した値で処理を分岐
+			switch (operation) {
+			case 1:
+				personalCheck(user);
+				break;
+			case 2:
+				personalPlacement(user);
+				break;
+			case 3:
+				approval(user);
+				break;
+			case 4:
+				salesonfirmation(user);
+				break;
+			default:
+				System.out.println(user.getUserName() + "さん。\nお疲れ様でした。");
+				endFlg = false;
+			}
 		}
 	}
 
@@ -59,7 +66,7 @@ public class Admin {
 			// L.A支店の人員構成を表示
 			System.out.println("L.A支店の人員構成");
 			entity = dao.personnelConfirmation(branch_id);
-			for(UserEntity list : entity){
+			for (UserEntity list : entity) {
 				System.out.println(list.getUserName());
 			}
 			break;
@@ -67,7 +74,7 @@ public class Admin {
 			// 埼玉国スカ支店の人員構成を表示
 			System.out.println("埼玉国スカ支店の人員構成");
 			entity = dao.personnelConfirmation(branch_id);
-			for(UserEntity list : entity){
+			for (UserEntity list : entity) {
 				System.out.println(list.getUserName());
 			}
 			break;
@@ -75,7 +82,7 @@ public class Admin {
 			// 赤坂支店の人員構成を表示
 			System.out.println("赤坂支店の人員構成");
 			entity = dao.personnelConfirmation(branch_id);
-			for(UserEntity list : entity){
+			for (UserEntity list : entity) {
 				System.out.println(list.getUserName());
 			}
 			break;
@@ -105,7 +112,7 @@ public class Admin {
 			// L.A支店の人員構成を表示
 			System.out.println("【L.A支店の人員一覧】");
 			entity = dao.personnelConfirmation(branch_id);
-			for(UserEntity list : entity){
+			for (UserEntity list : entity) {
 				System.out.println(list.getUserName());
 			}
 			break;
@@ -113,7 +120,7 @@ public class Admin {
 			// 埼玉国スカ支店の人員構成を表示
 			System.out.println("【埼玉国スカ支店の人員一覧】");
 			entity = dao.personnelConfirmation(branch_id);
-			for(UserEntity list : entity){
+			for (UserEntity list : entity) {
 				System.out.println(list.getUserName());
 			}
 			break;
@@ -121,7 +128,7 @@ public class Admin {
 			// 赤坂支店の人員構成を表示
 			System.out.println("【赤坂支店の人員一覧】");
 			entity = dao.personnelConfirmation(branch_id);
-			for(UserEntity list : entity){
+			for (UserEntity list : entity) {
 				System.out.println(list.getUserName());
 			}
 			break;
@@ -156,6 +163,9 @@ public class Admin {
 			int result = dao.staffing(changeBranch_id, employeeName);
 			if (result == 1) {
 				System.out.println("人員の配置を変更しました。");
+			} else {
+				System.out.println("人員配置の変更に失敗しました。\nもう一度最初からやり直して下さい。");
+				personalPlacement(user);
 			}
 		} else {
 			personalPlacement(user);
@@ -169,8 +179,7 @@ public class Admin {
 		Scanner sc = new Scanner(System.in);
 		StockOrderDAO dao = new StockOrderDAO();
 		StockDAO stockDao = new StockDAO();
-		System.out
-		.println("発注状況を確認する支店を選択してください。");
+		System.out.println("発注状況を確認する支店を選択してください。");
 		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
 		int branch_id = sc.nextInt();
 		String branch = null;
@@ -246,7 +255,7 @@ public class Admin {
 		ArrayList<EarningsEntity> result = earningsDao.checkEarnings(branch_id);
 
 		int totalEarnings = 0;
-		for(EarningsEntity entity : result){
+		for (EarningsEntity entity : result) {
 			System.out.print("商品名：" + entity.getProduct_name());
 			System.out.print("　販売数：" + entity.getQuantity());
 			System.out.print("　カラー：" + entity.getColor());

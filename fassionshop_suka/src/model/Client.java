@@ -12,17 +12,24 @@ public class Client {
 	// 顧客の操作選択処理
 	public static void clientOpe(UserEntity user) {
 		Scanner sc = new Scanner(System.in);
+		boolean endFlg = true;
 
-		System.out.println("手続きを選択してください。");
-		System.out.println("1:商品購入");
-		System.out.println("2:ウォレットチャージ");
+		while (endFlg) {
+			System.out.println("手続きを選択してください。");
+			System.out.println("1:商品購入");
+			System.out.println("2:ウォレットチャージ");
+			System.out.println("上記以外：操作を終了する");
 
-		int select = sc.nextInt();
+			int select = sc.nextInt();
 
-		if (select == 1) {
-			purchase(user);
-		} else if (select == 2) {
-			walletCharge(user);
+			if (select == 1) {
+				purchase(user);
+			} else if (select == 2) {
+				walletCharge(user);
+			} else {
+				System.out.println(user.getUserName() + "さん。\nお疲れ様でした。");
+				endFlg = false;
+			}
 		}
 	}
 
