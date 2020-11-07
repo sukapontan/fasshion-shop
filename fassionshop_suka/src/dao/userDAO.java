@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import common.Constant;
 import entity.UserEntity;
@@ -20,22 +21,20 @@ public class userDAO {
 		// データベース接続
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
-/*			// SELECT文の準備
-			String sql = "SELECT ID FROM USER WHERE NAME = ?";
-			PreparedStatement pStmt1 = conn.prepareStatement(sql);
-			pStmt1.setString(1, userName);
-			ResultSet rs1 = pStmt1.executeQuery();
-			rs1.next();
-			int id = rs1.getInt("id");*/
+			/*
+			 * // SELECT文の準備 String sql = "SELECT ID FROM USER WHERE NAME = ?";
+			 * PreparedStatement pStmt1 = conn.prepareStatement(sql);
+			 * pStmt1.setString(1, userName); ResultSet rs1 =
+			 * pStmt1.executeQuery(); rs1.next(); int id = rs1.getInt("id");
+			 */
 
-			String sql2 = "SELECT * FROM USER WHERE USER.NAME = ? AND USER.PASS = ?";
-			PreparedStatement pStmt2 = conn.prepareStatement(sql2);
-			pStmt2.setString(1, userName);
-			pStmt2.setString(2, userPass);
-
+			String sql = "SELECT * FROM USER WHERE USER.NAME = ? AND USER.PASS = ?";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setString(1, userName);
+			pStmt.setString(2, userPass);
 
 			// SELECT文を実行
-			ResultSet rs = pStmt2.executeQuery();
+			ResultSet rs = pStmt.executeQuery();
 
 			// 一致したユーザーが存在した場合、そのユーザーを表すUserインスタンスを生成
 			if (rs.next()) {
@@ -48,7 +47,7 @@ public class userDAO {
 
 				loginUser = new UserEntity(userId, userType, name, pass, branch_id);
 
-				pStmt2.close();
+				pStmt.close();
 				conn.close();
 			}
 		} catch (SQLException e) {
@@ -58,11 +57,11 @@ public class userDAO {
 	}
 
 	// 人員確認に関する処理
-	public String personnelConfirmation(int branch_id) {
+	public ArrayList<UserEntity> personnelConfirmation(int branch_id) {
 
 		// 配列で人員情報を表示できないか検討中 2020/10/19
-		// ArrayList<UserEntity> userEntity = new ArrayList<UserEntity>();
-		String employeeName = null;
+		ArrayList<UserEntity> list = new ArrayList<UserEntity>();
+		// String employeeName = null;
 
 		// データベース接続
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
@@ -75,15 +74,18 @@ public class userDAO {
 			// SELECT文を実行
 			ResultSet rs = pStmt.executeQuery();
 
-			rs.next();
-			employeeName = rs.getNString("name");
+			while (rs.next()) {
+				UserEntity entity = new UserEntity();
+				entity.setUserName(rs.getString("name"));
 
+				list.add(entity);
+			}
 			pStmt.close();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return employeeName;
+		return list;
 	}
 
 	// 人員配置に関する処理

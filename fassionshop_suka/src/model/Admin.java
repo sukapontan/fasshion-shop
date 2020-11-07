@@ -49,6 +49,7 @@ public class Admin {
 
 		Scanner sc = new Scanner(System.in);
 		userDAO dao = new userDAO();
+		ArrayList<UserEntity> entity = null;
 		System.out.println("人員配置を確認する店舗を選択してください。");
 		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
 		int branch_id = sc.nextInt();
@@ -57,17 +58,26 @@ public class Admin {
 		case 1:
 			// L.A支店の人員構成を表示
 			System.out.println("L.A支店の人員構成");
-			dao.personnelConfirmation(branch_id);
+			entity = dao.personnelConfirmation(branch_id);
+			for(UserEntity list : entity){
+				System.out.println(list.getUserName());
+			}
 			break;
 		case 2:
 			// 埼玉国スカ支店の人員構成を表示
 			System.out.println("埼玉国スカ支店の人員構成");
-			dao.personnelConfirmation(branch_id);
+			entity = dao.personnelConfirmation(branch_id);
+			for(UserEntity list : entity){
+				System.out.println(list.getUserName());
+			}
 			break;
 		case 3:
 			// 赤坂支店の人員構成を表示
 			System.out.println("赤坂支店の人員構成");
-			dao.personnelConfirmation(branch_id);
+			entity = dao.personnelConfirmation(branch_id);
+			for(UserEntity list : entity){
+				System.out.println(list.getUserName());
+			}
 			break;
 		}
 
@@ -84,14 +94,47 @@ public class Admin {
 
 		Scanner sc = new Scanner(System.in);
 		userDAO dao = new userDAO();
+		ArrayList<UserEntity> entity = null;
+
+		System.out.println("人員配置を確認する店舗を選択してください。");
+		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
+		int branch_id = sc.nextInt();
+
+		switch (branch_id) {
+		case 1:
+			// L.A支店の人員構成を表示
+			System.out.println("【L.A支店の人員一覧】");
+			entity = dao.personnelConfirmation(branch_id);
+			for(UserEntity list : entity){
+				System.out.println(list.getUserName());
+			}
+			break;
+		case 2:
+			// 埼玉国スカ支店の人員構成を表示
+			System.out.println("【埼玉国スカ支店の人員一覧】");
+			entity = dao.personnelConfirmation(branch_id);
+			for(UserEntity list : entity){
+				System.out.println(list.getUserName());
+			}
+			break;
+		case 3:
+			// 赤坂支店の人員構成を表示
+			System.out.println("【赤坂支店の人員一覧】");
+			entity = dao.personnelConfirmation(branch_id);
+			for(UserEntity list : entity){
+				System.out.println(list.getUserName());
+			}
+			break;
+		}
+
 		System.out.println("配置を変更する人員を入力してください。");
 		String employeeName = sc.next();
 		System.out.println("選択した人員が異動する店舗を選択してください。");
 		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
-		int branch_id = sc.nextInt();
+		int changeBranch_id = sc.nextInt();
 		System.out.println("選択した従業員と移動先の店舗は以下になります。");
 
-		switch (branch_id) {
+		switch (changeBranch_id) {
 		case 1:
 			System.out.println("従業員名：" + employeeName);
 			System.out.println("店舗：L.A支店");
@@ -110,7 +153,7 @@ public class Admin {
 		int answer = sc.nextInt();
 
 		if (answer == 1) {
-			int result = dao.staffing(branch_id, employeeName);
+			int result = dao.staffing(changeBranch_id, employeeName);
 			if (result == 1) {
 				System.out.println("人員の配置を変更しました。");
 			}
@@ -126,7 +169,8 @@ public class Admin {
 		Scanner sc = new Scanner(System.in);
 		StockOrderDAO dao = new StockOrderDAO();
 		StockDAO stockDao = new StockDAO();
-		System.out.println("発注状況を確認する支店を選択してください。");
+		System.out
+		.println("発注状況を確認する支店を選択してください。");
 		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
 		int branch_id = sc.nextInt();
 		String branch = null;
@@ -200,6 +244,27 @@ public class Admin {
 		System.out.println("【売上一覧】");
 		EarningsDAO earningsDao = new EarningsDAO();
 		ArrayList<EarningsEntity> result = earningsDao.checkEarnings(branch_id);
+
+		int totalEarnings = 0;
+		for(EarningsEntity entity : result){
+			System.out.print("商品名：" + entity.getProduct_name());
+			System.out.print("　販売数：" + entity.getQuantity());
+			System.out.print("　カラー：" + entity.getColor());
+			System.out.print("　サイズ：" + entity.getSize());
+			System.out.println("　売上金額：" + entity.getEarnings());
+			totalEarnings += entity.getEarnings();
+		}
+
+		if (branch_id == 0) {
+			branch = "全支店";
+		} else if (branch_id == 1) {
+			branch = "L・A支店";
+		} else if (branch_id == 2) {
+			branch = "埼玉国スカ支店";
+		} else if (branch_id == 3) {
+			branch = "赤坂支店";
+		}
+		System.out.println(branch + "の合計売上金額は" + totalEarnings + "円です。");
 
 	}
 }
