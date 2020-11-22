@@ -47,9 +47,13 @@ public class StockOrderDAO {
 	}
 
 	// 発注履歴の表示に関する処理
-	public void productOrderCheck(int branch_id) {
+	public ArrayList<StockOrderEntity> productOrderCheck(int branch_id) {
+
+		ArrayList<StockOrderEntity> list = new ArrayList<StockOrderEntity>();
 
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
+
+			// 発注履歴がなかった場合の戻り値
 
 			// SELECT文の準備
 			String sql = "SELECT * FROM STOCKORDER WHERE BRANCH_ID = ? AND STATUS = 10";
@@ -64,21 +68,15 @@ public class StockOrderDAO {
 			// 結果表から発注履歴情報を取得
 			while (rs.next()) {
 
+				StockOrderEntity entity = new StockOrderEntity();
 				// 発注情報を表示する処理を記述
-				String product_name = rs.getString("product_name");
-				int price = rs.getInt("price");
-				String color = rs.getString("color");
-				String size = rs.getString("size");
-				int branch = rs.getInt("branch_id");
-				int order_quantity = rs.getInt("order_quantity");
-
-				System.out.print(" 商品名：" + product_name);
-				System.out.print(" 価格：" + price);
-				System.out.print(" カラー：" + color);
-				System.out.print(" サイズ：" + size);
-				System.out.print(" 支店コード：" + branch);
-				System.out.print(" 数量：" + order_quantity + "\n");
-
+				entity.setProduct_name(rs.getString("product_name"));
+				entity.setPrice(rs.getInt("price"));
+				entity.setColor(rs.getString("color"));
+				entity.setSize(rs.getString("size"));
+				entity.setBranch_id(rs.getInt("branch_id"));
+				entity.setOrder_quantity(rs.getInt("order_quantity"));
+				list.add(entity);
 			}
 
 			pStmt.close();
@@ -87,6 +85,7 @@ public class StockOrderDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return list;
 	}
 
 	// 発注承認に関する処理（発注数を取得する処理）

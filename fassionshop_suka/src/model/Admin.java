@@ -94,6 +94,10 @@ public class Admin {
 		// 人員確認後、配置を変更する場合は、人員配置のメソッド呼び出し
 		if (answer == 1) {
 			personalPlacement(user);
+		} else {
+			// 作業内容選択に戻る
+			adminOpe(user);
+
 		}
 	}
 
@@ -180,6 +184,7 @@ public class Admin {
 	// 在庫発注承認に関する処理
 	public static void approval(UserEntity user) {
 
+		ArrayList<StockOrderEntity> list = null;
 		Scanner sc = new Scanner(System.in);
 		StockOrderDAO dao = new StockOrderDAO();
 		StockDAO stockDao = new StockDAO();
@@ -197,40 +202,57 @@ public class Admin {
 
 		// 在庫の発注を表示する
 		System.out.println(branch + "の発注状況");
-		dao.productOrderCheck(branch_id);
+		list = dao.productOrderCheck(branch_id);
 
-		// 発注を承認するか確認
-		System.out.println("上記の発注を承認しますか？");
-		System.out.println("1:はい\n2:いいえ");
-		int answer = sc.nextInt();
-		if (answer == 1) {
-			// STOCKORDERテーブルから発注数を取得する
-			ArrayList<StockOrderEntity> list = new ArrayList<StockOrderEntity>();
-			list = dao.getQuantity(branch_id);
-
-			for (StockOrderEntity entity : list) {
-				int orderQuantity = entity.getOrder_quantity();
-				String color = entity.getColor();
-				String size = entity.getSize();
-				int price = entity.getPrice();
-				// STOCKORDERテーブルのステータスを更新する
-				dao.orderApproval(branch_id, orderQuantity, color, size);
-				// STOCKテーブルの在庫を更新する
-				stockDao.orderUpdStock(branch_id, orderQuantity, color, size, price);
-			}
-
-		} else if (answer == 2) {
-			System.out.println("発注承認を続けますか？");
-			System.out.println("1:はい\n2:いいえ");
-			int answer2 = sc.nextInt();
-			if (answer2 == 1) {
-				approval(user);
-			} else if (answer2 == 2) {
-				System.exit(0);
-			}
+		for (StockOrderEntity entity : list) {
+			System.out.print(" 商品名：" + entity.getProduct_name());
+			System.out.print(" 価格：" + entity.getPrice());
+			System.out.print(" カラー：" + entity.getColor());
+			System.out.print(" サイズ：" + entity.getSize());
+			System.out.print(" 支店コード：" + entity.getBranch_id());
+			System.out.print(" 数量：" + entity.getOrder_quantity() + "\n");
 		}
 
-		System.out.println("発注を承認しました。");
+		// 発注履歴が存在する場合、発注承認の確認
+		if (!(list.size() == 0)) {
+			// 発注を承認するか確認
+			System.out.println("上記の発注を承認しますか？");
+			System.out.println("1:はい\n2:いいえ");
+			int answer = sc.nextInt();
+			if (answer == 1) {
+				// STOCKORDERテーブルから発注数を取得する
+				list = dao.getQuantity(branch_id);
+
+				for (StockOrderEntity entity : list) {
+					int orderQuantity = entity.getOrder_quantity();
+					String color = entity.getColor();
+					String size = entity.getSize();
+					int price = entity.getPrice();
+					// STOCKORDERテーブルのステータスを更新する
+					dao.orderApproval(branch_id, orderQuantity, color, size);
+					// STOCKテーブルの在庫を更新する
+					stockDao.orderUpdStock(branch_id, orderQuantity, color, size, price);
+				}
+
+			} else if (answer == 2) {
+				System.out.println("発注承認を続けますか？");
+				System.out.println("1:はい\n2:いいえ");
+				int answer2 = sc.nextInt();
+				if (answer2 == 1) {
+					approval(user);
+				} else if (answer2 == 2) {
+					System.out.println(user.getUserName() + "さん。\nお疲れ様でした。");
+					System.exit(0);
+				}
+			}
+
+			System.out.println("発注を承認しました。");
+
+		} else {
+			// 発注履歴が存在しない場合、発注承認をキャンセルし、作業内容選択に戻る
+			System.out.println("承認対象データが見つかりません。");
+			adminOpe(user);
+		}
 
 	}
 

@@ -45,17 +45,6 @@ public class login {
 			System.out.println("【在籍支店】：" + user.getBranch_name());
 		}
 
-		/*
-		 * if(user != null){
-		 *
-		 * }else{ System.out.println("ユーザー名またはパスワードが間違っています。"); loginLogic(); }
-		 *
-		 * // 入力したユーザー名とパスワードが合っているか確認 if (userName.equals(user.getUserName())
-		 * && userPass.equals(user.getPass())) { System.out.println("ようこそ" +
-		 * user.getUserName() + "さん"); System.out.println("Wallet残高：" +
-		 * walletBalance + "円"); } // ユーザ名またはパスワードが間違ってる場合、ログインからやり直す else {
-		 * System.out.println("ユーザー名またはパスワードが間違っています。"); loginLogic(); }
-		 */
 
 		// 【従業員】、【管理者】、【顧客】の判定を行う
 		switch (user.getUserType()) {

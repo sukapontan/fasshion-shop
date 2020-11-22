@@ -77,13 +77,7 @@ public class Employee {
 			System.out.print(" 価格：" + list.getPrice());
 			System.out.print(" 数量：" + list.getNumber() + "\n");
 		}
-		/*
-		 * // 所属している店舗の在庫を表示する switch (branch_id) { case 1: // L.A支店の在庫を表示
-		 * dao.chkStock(branch_id); System.out.println("【L.A支店の在庫】"); break;
-		 * case 2: // 埼玉国スカ支店の在庫を表示 System.out.println("【埼玉国スカ支店の商品在庫】");
-		 * dao.chkStock(branch_id); break; case 3: // 赤坂支店の在庫を表示
-		 * System.out.println("【赤坂支店の在庫】"); dao.chkStock(branch_id); break; }
-		 */
+
 
 		// 発注する商品の選択
 		System.out.println("発注する商品の情報を入力してください。");
