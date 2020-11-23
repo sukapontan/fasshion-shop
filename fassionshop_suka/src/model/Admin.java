@@ -46,7 +46,8 @@ public class Admin {
 				salesonfirmation(user);
 				break;
 			default:
-				System.out.println(user.getUserName() + "さん。\nお疲れ様でした。");
+				System.out.println("操作を終了します。");
+				System.out.println(user.getUserName() + "さん。お疲れ様でした。");
 				endFlg = false;
 			}
 		}
@@ -86,6 +87,10 @@ public class Admin {
 			for (UserEntity list : entity) {
 				System.out.println(list.getUserName());
 			}
+			break;
+		default:
+			System.out.println("支店が存在しません。\n正しい支店番号を選択してください。");
+			personalCheck(user);
 			break;
 		}
 
@@ -140,6 +145,7 @@ public class Admin {
 		default:
 			System.out.println("支店が存在しません。\n正しい支店番号を選択してください。");
 			personalPlacement(user);
+			break;
 		}
 
 		System.out.println("配置を変更する人員を入力してください。");
@@ -147,20 +153,26 @@ public class Admin {
 		System.out.println("選択した人員が異動する店舗を選択してください。");
 		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
 		int changeBranch_id = sc.nextInt();
-		System.out.println("選択した従業員と移動先の店舗は以下になります。");
 
 		switch (changeBranch_id) {
 		case 1:
+			System.out.println("選択した従業員と移動先の店舗は以下になります。");
 			System.out.println("従業員名：" + employeeName);
 			System.out.println("店舗：L.A支店");
 			break;
 		case 2:
+			System.out.println("選択した従業員と移動先の店舗は以下になります。");
 			System.out.println("従業員名：" + employeeName);
 			System.out.println("店舗：埼玉国スカ支店");
 			break;
 		case 3:
+			System.out.println("選択した従業員と移動先の店舗は以下になります。");
 			System.out.println("従業員名：" + employeeName);
 			System.out.println("店舗：赤坂支店");
+			break;
+		default:
+			System.out.println("支店が存在しません。\nもう一度やり直してください。");
+			personalPlacement(user);
 			break;
 		}
 
@@ -172,7 +184,7 @@ public class Admin {
 			if (result == 1) {
 				System.out.println("人員の配置を変更しました。");
 			} else {
-				System.out.println("人員配置の変更に失敗しました。\nもう一度最初からやり直して下さい。");
+				System.out.println("入力した従業員名が存在しないため、人員配置の変更に失敗しました。\nもう一度最初からやり直して下さい。");
 				personalPlacement(user);
 			}
 		} else {
