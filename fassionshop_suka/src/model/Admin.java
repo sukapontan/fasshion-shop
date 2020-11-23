@@ -49,6 +49,7 @@ public class Admin {
 				System.out.println("操作を終了します。");
 				System.out.println(user.getUserName() + "さん。お疲れ様でした。");
 				endFlg = false;
+				break;
 			}
 		}
 	}
@@ -153,22 +154,26 @@ public class Admin {
 		System.out.println("選択した人員が異動する店舗を選択してください。");
 		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
 		int changeBranch_id = sc.nextInt();
+		String changeBranchName = null;
 
 		switch (changeBranch_id) {
 		case 1:
 			System.out.println("選択した従業員と移動先の店舗は以下になります。");
 			System.out.println("従業員名：" + employeeName);
 			System.out.println("店舗：L.A支店");
+			changeBranchName = "L.A支店";
 			break;
 		case 2:
 			System.out.println("選択した従業員と移動先の店舗は以下になります。");
 			System.out.println("従業員名：" + employeeName);
 			System.out.println("店舗：埼玉国スカ支店");
+			changeBranchName = "埼玉国スカ支店";
 			break;
 		case 3:
 			System.out.println("選択した従業員と移動先の店舗は以下になります。");
 			System.out.println("従業員名：" + employeeName);
 			System.out.println("店舗：赤坂支店");
+			changeBranchName = "赤坂支店";
 			break;
 		default:
 			System.out.println("支店が存在しません。\nもう一度やり直してください。");
@@ -180,7 +185,7 @@ public class Admin {
 		int answer = sc.nextInt();
 
 		if (answer == 1) {
-			int result = dao.staffing(changeBranch_id, employeeName);
+			int result = dao.staffing(changeBranch_id, changeBranchName, employeeName);
 			if (result == 1) {
 				System.out.println("人員の配置を変更しました。");
 			} else {

@@ -81,7 +81,7 @@ public class UserDAO {
 	}
 
 	// 人員配置に関する処理
-	public int staffing(int branch_id, String name) {
+	public int staffing(int branch_id,String branch_name, String name) {
 
 		int result = 0;
 
@@ -89,10 +89,11 @@ public class UserDAO {
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// 人員配置を変更するUPDATE文の準備
-			String sql = "UPDATE USER SET BRANCH_ID = ? WHERE NAME = ? ";
+			String sql = "UPDATE USER SET BRANCH_ID = ?, BRANCH_NAME = ? WHERE NAME = ? ";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, branch_id);
-			pStmt.setString(2, name);
+			pStmt.setString(2, branch_name);
+			pStmt.setString(3, name);
 
 			// SELECT文を実行
 			result = pStmt.executeUpdate();
