@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import common.Constant;
 import entity.UserEntity;
 
-public class userDAO {
+public class UserDAO {
 
 	// ログインするユーザーの情報を取得する処理
 	public UserEntity userLogin(String userName, String userPass) {

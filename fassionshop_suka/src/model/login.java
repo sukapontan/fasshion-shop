@@ -3,7 +3,7 @@ package model;
 import java.util.Scanner;
 
 import dao.WalletDAO;
-import dao.userDAO;
+import dao.UserDAO;
 import entity.UserEntity;
 
 public class login {
@@ -24,7 +24,7 @@ public class login {
 		int walletBalance = 0;
 
 		// DBにアクセスしてユーザ名とパスワードを取得
-		userDAO dao = new userDAO();
+		UserDAO dao = new UserDAO();
 		WalletDAO wdao = new WalletDAO();
 		UserEntity user = dao.userLogin(userName, userPass);
 

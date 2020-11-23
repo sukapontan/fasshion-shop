@@ -138,6 +138,7 @@ public class Client {
 
 			System.out.println("購入が完了しました。");
 			System.out.println("ウォレット残高：" + updBalance + "円");
+			System.exit(0);
 
 			// 「いいえ」の場合、手続きの選択からやり直す
 		} else if (fix == 2) {

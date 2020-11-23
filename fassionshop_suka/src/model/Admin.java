@@ -6,7 +6,7 @@ import java.util.Scanner;
 import dao.EarningsDAO;
 import dao.StockDAO;
 import dao.StockOrderDAO;
-import dao.userDAO;
+import dao.UserDAO;
 import entity.EarningsEntity;
 import entity.StockOrderEntity;
 import entity.UserEntity;
@@ -57,7 +57,7 @@ public class Admin {
 	public static void personalCheck(UserEntity user) {
 
 		Scanner sc = new Scanner(System.in);
-		userDAO dao = new userDAO();
+		UserDAO dao = new UserDAO();
 		ArrayList<UserEntity> entity = null;
 		System.out.println("人員配置を確認する店舗を選択してください。");
 		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
@@ -110,7 +110,7 @@ public class Admin {
 	public static void personalPlacement(UserEntity user) {
 
 		Scanner sc = new Scanner(System.in);
-		userDAO dao = new userDAO();
+		UserDAO dao = new UserDAO();
 		ArrayList<UserEntity> entity = null;
 
 		System.out.println("人員配置を確認する店舗を選択してください。");

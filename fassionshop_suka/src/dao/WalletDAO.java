@@ -69,12 +69,11 @@ public class WalletDAO {
 			if (updBalance < 0) {
 				System.out.println("ウォレット残高が不足しています。チャージしてください。");
 				System.out.println("現在のウォレット残高：" + balance + "円");
-				// Client c = new Client();
 				// ウォレットチャージに遷移
 				updBalance = Client.walletCharge(user);
 				// 商品選択に戻る
 				Client.purchase(user);
-				System.exit(0);
+				//System.exit(0);
 			}
 
 			// conn.setAutoCommit(false); // オートコミットはオフ

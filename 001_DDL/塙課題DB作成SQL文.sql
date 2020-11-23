@@ -16,9 +16,9 @@ update user set branch_name = '赤坂支店' where branch_id = 3;
 
 ウォレットテーブル
 create table wallet(user_id int not null primary key,balance int,update_date datetime);
-insert into wallet(user_id,balance,update_date) values(1,10000,cast(now() as datetime));
-insert into wallet(user_id,balance,update_date) values(2,10000,cast(now() as datetime));
-insert into wallet(user_id,balance,update_date) values(3,10000,cast(now() as datetime));
+insert into wallet(user_id,balance,update_date) values(1,1000,cast(now() as datetime));
+insert into wallet(user_id,balance,update_date) values(2,20000,cast(now() as datetime));
+insert into wallet(user_id,balance,update_date) values(3,300000,cast(now() as datetime));
 
 
 
