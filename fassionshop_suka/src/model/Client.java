@@ -20,11 +20,11 @@ public class Client {
 			System.out.println("2:ウォレットチャージ");
 			System.out.println("上記以外：操作を終了する");
 
-			int select = sc.nextInt();
+			String select = sc.next();
 
-			if (select == 1) {
+			if (select.equals("1")) {
 				purchase(user);
-			} else if (select == 2) {
+			} else if (select.equals("2")) {
 				walletCharge(user);
 			} else {
 				System.out.println(user.getUserName() + "さん。\nお疲れ様でした。");

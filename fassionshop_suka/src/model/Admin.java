@@ -28,20 +28,20 @@ public class Admin {
 			System.out.println("上記以外：管理者操作を終了する");
 
 			// 入力した値を変数に格納
-			int operation = sc.nextInt();
+			String operation = sc.next();
 
 			// 入力した値で処理を分岐
 			switch (operation) {
-			case 1:
+			case "1":
 				personalCheck(user);
 				break;
-			case 2:
+			case "2":
 				personalPlacement(user);
 				break;
-			case 3:
+			case "3":
 				approval(user);
 				break;
-			case 4:
+			case "4":
 				salesonfirmation(user);
 				break;
 			default:
