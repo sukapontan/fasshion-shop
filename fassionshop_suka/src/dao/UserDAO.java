@@ -89,7 +89,7 @@ public class UserDAO {
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
 			// 人員配置を変更するUPDATE文の準備
-			String sql = "UPDATE USER SET BRANCH_ID = ?, BRANCH_NAME = ? WHERE NAME = ? ";
+			String sql = "UPDATE USER SET BRANCH_ID = ?, BRANCH_NAME = ? WHERE NAME = ? AND USERTYPE = 1";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			pStmt.setInt(1, branch_id);
 			pStmt.setString(2, branch_name);

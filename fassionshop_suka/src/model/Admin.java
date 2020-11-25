@@ -35,7 +35,6 @@ public class Admin {
 			case 1:
 				personalCheck(user);
 				break;
-
 			case 2:
 				personalPlacement(user);
 				break;
@@ -100,10 +99,6 @@ public class Admin {
 		// 人員確認後、配置を変更する場合は、人員配置のメソッド呼び出し
 		if (answer == 1) {
 			personalPlacement(user);
-		} else {
-			// 作業内容選択に戻る
-			adminOpe(user);
-
 		}
 	}
 
