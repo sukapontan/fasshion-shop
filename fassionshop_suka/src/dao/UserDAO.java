@@ -37,7 +37,7 @@ public class UserDAO {
 				String name = rs.getString("name"); // 名前
 				String pass = rs.getString("pass"); // パスワード
 				int branch_id = rs.getInt("branch_id"); // 支店ID
-				String branch_name = rs.getString("branch_name");//支店名
+				String branch_name = rs.getString("branch_name");// 支店名
 
 				loginUser = new UserEntity(userId, userType, name, pass, branch_id, branch_name);
 
@@ -80,8 +80,40 @@ public class UserDAO {
 		return list;
 	}
 
+	// 人員配置時の在籍店舗の確認に関する処理
+	public UserEntity RegisteredStoreCheck(String employeeName) {
+
+			UserEntity entity = new UserEntity();
+
+			// データベース接続
+			try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
+
+				// 人員配置を変更するUPDATE文の準備
+				String sql = "SELECT * FROM USER WHERE NAME = ?";
+				PreparedStatement pStmt = conn.prepareStatement(sql);
+				pStmt.setString(1, employeeName);
+
+				// SELECT文を実行
+				ResultSet rs = pStmt.executeQuery();
+
+				rs.next();
+				entity.setUser_id(rs.getInt("id"));
+				entity.setUserType(rs.getInt("userType"));
+				entity.setUserName(rs.getString("name"));
+				entity.setBranch(rs.getInt("branch_id"));
+				entity.setBranch_name(rs.getString("branch_name"));
+
+				pStmt.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			return entity;
+			}
+			return entity;
+		}
+
 	// 人員配置に関する処理
-	public int staffing(int branch_id,String branch_name, String name) {
+	public int staffing(int branch_id, String branch_name, String name) {
 
 		int result = 0;
 
