@@ -340,15 +340,6 @@ public class Admin {
 			totalEarnings += entity.getEarnings();
 		}
 
-		if (branch_id == 0) {
-			branch = "全支店";
-		} else if (branch_id == 1) {
-			branch = "L・A支店";
-		} else if (branch_id == 2) {
-			branch = "埼玉国スカ支店";
-		} else if (branch_id == 3) {
-			branch = "赤坂支店";
-		}
 		System.out.println("=================================================");
 		System.out.println(branch + "の合計売上金額は" + totalEarnings + "円です。");
 		System.out.println("=================================================");
