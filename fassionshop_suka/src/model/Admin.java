@@ -111,122 +111,123 @@ public class Admin {
 		String employeeName = null;
 		int changeBranch_id = 0;
 		String changeBranchName = null;
+		boolean personalCheck = true;
 
-		System.out.println("人員配置を確認する店舗を選択してください。");
-		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
-		int branch_id = sc.nextInt();
+		while (personalCheck) {
+			System.out.println("人員配置を確認する店舗を選択してください。");
+			System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
+			int branch_id = sc.nextInt();
 
-		switch (branch_id) {
-		case 1:
-			// L.A支店の人員構成を表示
-			System.out.println("【L.A支店の人員一覧】");
-			entity = dao.personnelConfirmation(branch_id);
-			for (UserEntity list : entity) {
-				System.out.println(list.getUserName());
+			switch (branch_id) {
+			case 1:
+				// L.A支店の人員構成を表示
+				System.out.println("【L.A支店の人員一覧】");
+				entity = dao.personnelConfirmation(branch_id);
+				for (UserEntity list : entity) {
+					System.out.println(list.getUserName());
+				}
+				personalCheck = false;
+				break;
+			case 2:
+				// 埼玉国スカ支店の人員構成を表示
+				System.out.println("【埼玉国スカ支店の人員一覧】");
+				entity = dao.personnelConfirmation(branch_id);
+				for (UserEntity list : entity) {
+					System.out.println(list.getUserName());
+				}
+				personalCheck = false;
+				break;
+			case 3:
+				// 赤坂支店の人員構成を表示
+				System.out.println("【赤坂支店の人員一覧】");
+				entity = dao.personnelConfirmation(branch_id);
+				for (UserEntity list : entity) {
+					System.out.println(list.getUserName());
+				}
+				personalCheck = false;
+				break;
+			default:
+				System.out.println("支店が存在しません。\n正しい支店番号を選択してください。");
+				break;
 			}
-			break;
-		case 2:
-			// 埼玉国スカ支店の人員構成を表示
-			System.out.println("【埼玉国スカ支店の人員一覧】");
-			entity = dao.personnelConfirmation(branch_id);
-			for (UserEntity list : entity) {
-				System.out.println(list.getUserName());
-			}
-			break;
-		case 3:
-			// 赤坂支店の人員構成を表示
-			System.out.println("【赤坂支店の人員一覧】");
-			entity = dao.personnelConfirmation(branch_id);
-			for (UserEntity list : entity) {
-				System.out.println(list.getUserName());
-			}
-			break;
-		default:
-			System.out.println("支店が存在しません。\n正しい支店番号を選択してください。");
-			personalPlacement(user);
-			break;
 		}
 
-		boolean bool = true;
-		while (bool) {
+		UserEntity entity2 = null;
+		boolean personaChange = true;
+		while (personaChange) {
 			System.out.println("配置を変更する人員を入力してください。");
 			employeeName = sc.next();
 			UserDAO dao2 = new UserDAO();
-			UserEntity entity2 = dao2.RegisteredStoreCheck(employeeName);
+			entity2 = dao2.RegisteredStoreCheck(employeeName);
 
-			//入力したユーザーがDB上に存在するかチェック
-			if(entity2.getUserName() == null){
+			// 入力したユーザーがDB上に存在するかチェック
+			if (entity2 == null) {
 				System.out.println("入力したユーザーは存在しません。再度入力し直してください。");
-				personalPlacement(user);
+				continue;
 			}
+			personaChange = false;
+		}
 
+		boolean shopExist = true;
+		while (shopExist) {
 			System.out.println("選択した人員が異動する店舗を選択してください。");
 			System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
 			changeBranch_id = sc.nextInt();
-
 			// 選択内容確認
 			switch (changeBranch_id) {
 			case 1:
 				changeBranchName = "L・A支店";
-				//System.out.println("在籍店舗テスト出力：" + entity2.getBranch_name());
 				// 選択した店舗が現在所属している店舗の場合、再度入力し直す
 				if (entity2.getBranch_name().equals(changeBranchName)) {
 					System.out.println("※選択した店舗は在籍店舗です。別の店舗を選択してください。");
-					personalPlacement(user);
-					//bool = false;
 				} else {
 					System.out.println("選択した従業員と異動先の店舗は以下になります。");
 					System.out.println("従業員名：" + employeeName);
 					System.out.println("店舗：" + changeBranchName);
+					shopExist = false;
 				}
 				break;
 			case 2:
 				changeBranchName = "埼玉国スカ支店";
 				// 選択した店舗が現在所属している店舗の場合、再度入力し直す
-				if (user.getBranch_name().equals(changeBranchName)) {
+				if (entity2.getBranch_name().equals(changeBranchName)) {
 					System.out.println("※選択した店舗は在籍店舗です。別の店舗を選択してください。");
-					bool = false;
 				} else {
 					System.out.println("選択した従業員と異動先の店舗は以下になります。");
 					System.out.println("従業員名：" + employeeName);
 					System.out.println("店舗：" + changeBranchName);
+					shopExist = false;
 				}
 				break;
 			case 3:
 				changeBranchName = "赤坂支店";
 				// 選択した店舗が現在所属している店舗の場合、再度入力し直す
-				if (user.getBranch_name().equals(changeBranchName)) {
+				if (entity2.getBranch_name().equals(changeBranchName)) {
 					System.out.println("※選択した店舗は在籍店舗です。別の店舗を選択してください。");
-					bool = false;
 				} else {
 					System.out.println("選択した従業員と異動先の店舗は以下になります。");
 					System.out.println("従業員名：" + employeeName);
 					System.out.println("店舗：" + changeBranchName);
+					shopExist = false;
 				}
 				break;
 			default:
 				System.out.println("支店が存在しません。\nもう一度やり直してください。");
-				personalPlacement(user);
 				break;
 			}
-
-			System.out.println("人員配置を変更します。よろしいですか？\n1:はい\n2:いいえ");
-			int answer = sc.nextInt();
-
-			if (answer == 1) {
-				int result = dao.staffing(changeBranch_id, changeBranchName, employeeName);
-				if (result == 1) {
-					System.out.println("人員の配置を変更しました。");
-				} else {
-					System.out.println("入力した従業員名が存在しないため、人員配置の変更に失敗しました。\nもう一度最初からやり直して下さい。");
-					personalPlacement(user);
-				}
-			} else {
-				personalPlacement(user);
-			}
-
 		}
 
+		System.out.println("人員配置を変更します。よろしいですか？\n1:はい\n1以外:いいえ");
+		int answer = sc.nextInt();
+
+		if (answer == 1) {
+			int result = dao.staffing(changeBranch_id, changeBranchName, employeeName);
+			if (result == 1) {
+				System.out.println("人員の配置を変更しました。");
+			} else {
+				System.out.println("人員配置の更新に失敗しました。\nもう一度最初からやり直して下さい。");
+			}
+		}
 	}
 
 	// 在庫発注承認に関する処理
@@ -236,6 +237,7 @@ public class Admin {
 		Scanner sc = new Scanner(System.in);
 		StockOrderDAO dao = new StockOrderDAO();
 		StockDAO stockDao = new StockDAO();
+
 		System.out.println("発注状況を確認する支店を選択してください。");
 		System.out.println("1:L・A支店\n2:埼玉国スカ支店\n3:赤坂支店");
 		int branch_id = sc.nextInt();
@@ -347,7 +349,9 @@ public class Admin {
 		} else if (branch_id == 3) {
 			branch = "赤坂支店";
 		}
+		System.out.println("=================================================");
 		System.out.println(branch + "の合計売上金額は" + totalEarnings + "円です。");
+		System.out.println("=================================================");
 
 	}
 }

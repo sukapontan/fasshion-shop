@@ -6,7 +6,8 @@ public class Constant {
 	public static String servername = "localhost";
 
 	/*接続するデータベース名をfashionshop_sukaとしている*/
-	public static String databasename = "fashionshop_suka";
+	//public static String databasename = "fashionshop_suka";
+	public static String databasename = "fashionshop";
 
 	/*データベースの接続に用いるユーザ名をrootユーザとしている*/
 	public static String user = "root";
@@ -18,6 +19,7 @@ public class Constant {
 	public static String serverencoding = "UTF-8";
 
 	/** データベースをあらわすURLを設定している **/
-	public static String url = "jdbc:mysql://localhost/fashionshop_suka";
+	//public static String url = "jdbc:mysql://localhost/fashionshop_suka";
+	public static String url = "jdbc:mysql://localhost/fashionshop";
 
 }

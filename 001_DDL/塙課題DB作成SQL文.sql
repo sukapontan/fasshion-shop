@@ -69,6 +69,6 @@ earningsテーブルカラム追加SQL
 alter table earnings add product_name varchar(10);
 alter table earnings add quantity int;
 alter table earnings add color varchar(10);
-alter table earnings add product_name size(5);
+alter table earnings add size varchar(5);
 
 

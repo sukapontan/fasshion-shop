@@ -2,8 +2,8 @@ package model;
 
 import java.util.Scanner;
 
-import dao.WalletDAO;
 import dao.UserDAO;
+import dao.WalletDAO;
 import entity.UserEntity;
 
 public class login {
@@ -28,7 +28,7 @@ public class login {
 		WalletDAO wdao = new WalletDAO();
 		UserEntity user = dao.userLogin(userName, userPass);
 
-		// userEntityがnullの場合（検索結果０件）
+		// userEntityがnullの場合（検索結果0件）
 		if (user == null) {
 			System.out.println("ユーザー名またはパスワードが間違っています。");
 			loginLogic();

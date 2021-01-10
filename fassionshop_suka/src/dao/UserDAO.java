@@ -83,34 +83,39 @@ public class UserDAO {
 	// 人員配置時の在籍店舗の確認に関する処理
 	public UserEntity RegisteredStoreCheck(String employeeName) {
 
-			UserEntity entity = new UserEntity();
+		UserEntity entity = null;
 
-			// データベース接続
-			try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
+		// データベース接続
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
-				// 人員配置を変更するUPDATE文の準備
-				String sql = "SELECT * FROM USER WHERE NAME = ?";
-				PreparedStatement pStmt = conn.prepareStatement(sql);
-				pStmt.setString(1, employeeName);
+			// 人員配置を変更するUPDATE文の準備
+			String sql = "SELECT * FROM USER WHERE NAME = ?";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setString(1, employeeName);
 
-				// SELECT文を実行
-				ResultSet rs = pStmt.executeQuery();
+			// SELECT文を実行
+			ResultSet rs = pStmt.executeQuery();
 
-				rs.next();
+			if (rs.next()) {
+				entity = new UserEntity();
 				entity.setUser_id(rs.getInt("id"));
 				entity.setUserType(rs.getInt("userType"));
 				entity.setUserName(rs.getString("name"));
 				entity.setBranch(rs.getInt("branch_id"));
 				entity.setBranch_name(rs.getString("branch_name"));
-
-				pStmt.close();
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			return entity;
 			}
+
+			pStmt.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			// e.printStackTrace();
+			/* エラーメッセージ出力 */
+			System.out.println("Connection Failed. : " + e.toString());
 			return entity;
 		}
+		return entity;
+	}
 
 	// 人員配置に関する処理
 	public int staffing(int branch_id, String branch_name, String name) {
