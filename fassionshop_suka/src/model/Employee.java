@@ -81,8 +81,9 @@ public class Employee {
 
 		// 発注する商品の選択
 		System.out.println("発注する商品の情報を入力してください。");
-		System.out.println("商品名：");
-		String product_name = sc.next();
+		System.out.println("商品名：スカＴシャツ");
+		//現状、取り扱いがスカＴシャツのみなので固定
+		//String product_name = sc.next();
 		System.out.println("カラー：");
 		String color = sc.next();
 		System.out.println("サイズ：");
@@ -94,7 +95,7 @@ public class Employee {
 
 		// 発注商品確認
 		System.out.println("発注する商品は以下の内容でよろしいでしょうか？");
-		System.out.println("商品名：" + product_name);
+		System.out.println("商品名：スカＴシャツ");
 		System.out.println("カラー：" + color);
 		System.out.println("サイズ：" + size);
 		System.out.println("時価：" + price);

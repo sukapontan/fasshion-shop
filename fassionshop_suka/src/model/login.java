@@ -36,15 +36,19 @@ public class login {
 		// usertypeが3（顧客）
 		else if (user.getUserType() == 3) {
 			walletBalance = wdao.getWalletBalance(user.getUser_id());
+			System.out.println("=========================================");
 			System.out.println("ようこそ" + user.getUserName() + "さん");
 			System.out.println("Wallet残高：" + walletBalance + "円");
+			System.out.println("=========================================");
+
 		}
 		// usertypeが3以外（従業員、管理者）
 		else {
+			System.out.println("=========================================");
 			System.out.println("ようこそ" + user.getUserName() + "さん");
-			System.out.println("【在籍支店】：" + user.getBranch_name());
+			System.out.println("【在籍支店】" + user.getBranch_name());
+			System.out.println("=========================================");
 		}
-
 
 		// 【従業員】、【管理者】、【顧客】の判定を行う
 		switch (user.getUserType()) {

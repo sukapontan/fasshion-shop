@@ -53,8 +53,6 @@ public class StockOrderDAO {
 
 		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
 
-			// 発注履歴がなかった場合の戻り値
-
 			// SELECT文の準備
 			String sql = "SELECT * FROM STOCKORDER WHERE BRANCH_ID = ? AND STATUS = 10";
 			PreparedStatement pStmt = conn.prepareStatement(sql);
