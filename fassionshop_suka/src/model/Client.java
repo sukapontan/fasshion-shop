@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import dao.EarningsDAO;
 import dao.StockDAO;
+import dao.UserDAO;
 import dao.WalletDAO;
 import entity.UserEntity;
 
@@ -151,6 +152,8 @@ public class Client {
 
 		Scanner sc = new Scanner(System.in);
 		WalletDAO dao = new WalletDAO();
+		UserDAO loginDao = new UserDAO();
+
 		int updBalance = 0;
 
 		// 入金する金額を入力指示
@@ -163,13 +166,29 @@ public class Client {
 		System.out.println("1；はい\n2：いいえ");
 		int answer = sc.nextInt();
 
-		// 選択肢が「はい」の場合、チャージするメソッド呼び出し
+		// 選択肢が「はい」の場合
 		if (answer == 1) {
-			updBalance = dao.updWalletCharge(user, charge);
 
-			// チャージ後の金額を表示する
-			System.out.println("チャージが完了しました。");
-			System.out.println("ウォレット残高：" + updBalance + "円");
+			boolean endflg = true;
+			while (endflg) {
+				// パスワード入力
+				System.out.print("パスワード：");
+				String loginPass = sc.next();
+				UserEntity entity = loginDao.walletPassCheck(loginPass);
+
+				if (entity != null) {
+					// ウォレットチャージのメソッド呼び出し
+					updBalance = dao.updWalletCharge(user, charge);
+
+					// チャージ後の金額を表示する
+					System.out.println("チャージが完了しました。");
+					System.out.println("ウォレット残高：" + updBalance + "円");
+					endflg = false;
+				}else{
+					System.out.println("パスワードが間違っています。\nもう一度パスワードを入力してください。\n");
+				}
+
+			}
 
 			// 選択肢が「いいえ」の場合、チャージ金額の入力に戻る
 		} else if (answer == 2) {

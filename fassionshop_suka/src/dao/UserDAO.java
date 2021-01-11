@@ -142,4 +142,39 @@ public class UserDAO {
 		}
 		return result;
 	}
+
+	// ウォレットチャージするユーザーのパスワードが一致しているか確認する処理
+	public UserEntity walletPassCheck(String loginPass) {
+
+		UserEntity entity = null;
+
+		// データベース接続
+		try (Connection conn = DriverManager.getConnection(Constant.url, Constant.user, Constant.password)) {
+
+			String sql = "SELECT * FROM USER WHERE PASS = ?";
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setString(1, loginPass);
+
+			// SELECT文を実行
+			ResultSet rs = pStmt.executeQuery();
+
+			// 一致したユーザーが存在した場合、そのユーザーを表すUserインスタンスを生成
+			if (rs.next()) {
+				entity = new UserEntity();
+				// 結果表からデータを取得
+				entity.setUser_id(rs.getInt("id")); // ユーザーID
+				entity.setUserType(rs.getInt("userType")); // ユーザー種別
+				entity.setUserName(rs.getString("name")); // 名前
+				entity.setPass(rs.getString("pass")); // パスワード
+				entity.setBranch(rs.getInt("branch_id"));  // 支店ID
+				entity.setBranch_name(rs.getString("branch_name"));// 支店名
+
+				pStmt.close();
+				conn.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return entity;
+	}
 }
